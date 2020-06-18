@@ -47,7 +47,7 @@ QSize ChessView::sizeHint() const
     if(!m_board) return QSize(100,100);
     QSize boardSize = QSize(fieldSize().width()  * m_board->columns() +1,
                             m_fieldSize.height() * m_board->ranks()   +1);
-    int rankSize = fontMetrics().width('M')+4;
+    int rankSize = fontMetrics().horizontalAdvance('M')+4;
     int columnSize = fontMetrics().height()+4;
     return boardSize+QSize(rankSize, columnSize);
 }
@@ -58,7 +58,7 @@ QRect ChessView::fieldRect(int column, int rank) const
     const QSize fs = fieldSize();
     QRect fRect = QRect(QPoint((column-1)*fs.width(), (m_board->ranks()-rank)*fs.height()), fs);
     // offset rect by rank symbols
-    int offset = fontMetrics().width('M'); // 'M' is the widest letter
+    int offset = fontMetrics().horizontalAdvance('M'); // 'M' is the widest letter
     return fRect.translated(offset+4, 0);
 }
 
@@ -123,8 +123,8 @@ void ChessView::drawColumn(QPainter *painter, int column)
 void ChessView::drawField(QPainter *painter, int column, int rank)
 {
     QRect rect = fieldRect(column, rank);
-    QColor fillColor = (column+rank) % 2 ? palette().color(QPalette::Light)
-                                         : palette().color(QPalette::Mid);
+    QColor fillColor = (column+rank) % 2 ? palette().color(QPalette::Dark)
+                                         : palette().color(QPalette::Light);
     painter->setPen(palette().color(QPalette::Dark));
     painter->setBrush(fillColor);
     painter->drawRect(rect);
@@ -158,7 +158,7 @@ QPoint ChessView::fieldAt(const QPoint &pt) const
 {
     if(!m_board) return QPoint();
     const QSize fs = fieldSize();
-    int offset = fontMetrics().width('M')+4; // 'M' is the widest letter
+    int offset = fontMetrics().horizontalAdvance('M')+4; // 'M' is the widest letter
     if(pt.x() < offset) return QPoint();
     int c = (pt.x()-offset) / fs.width();
     int r = pt.y()/fs.height();
