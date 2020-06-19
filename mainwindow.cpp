@@ -2,6 +2,7 @@
 #include "chessboard.h"
 #include "chessview.h"
 #include "chessalgorithm.h"
+#include "ui_mainwindow.h"
 #include <QLayout>
 
 MainWindow::MainWindow(QWidget *parent)
@@ -33,6 +34,16 @@ MainWindow::MainWindow(QWidget *parent)
     m_view->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
     m_view->setFieldSize(QSize(100, 100));
     layout()->setSizeConstraint(QLayout::SetFixedSize);
+}
+
+void MainWindow::onActionNewTriggered()
+{
+    m_algorithm->newGame();
+}
+
+void MainWindow::onActionExitTriggered()
+{
+    QApplication::quit();
 }
 
 void MainWindow::viewClicked(const QPoint &field)

@@ -23,6 +23,10 @@ private:
     ChessAlgorithm *m_algorithm;
     QPoint m_clickPoint;
     ChessView::FieldHighlight *m_selectedField;
+
+    void onActionExitTriggered();
+    void onActionNewTriggered();
+    void onActionSaveTriggered();
 };
 
 #endif // MAINWINDOW_H
