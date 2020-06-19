@@ -44,7 +44,7 @@ void ChessView::setFieldSize(QSize fieldSize)
 
 QSize ChessView::sizeHint() const
 {
-    if(!m_board) return QSize(100,100);
+    if(!m_board) return QSize(100, 100);
     QSize boardSize = QSize(fieldSize().width()  * m_board->columns() +1,
                             m_fieldSize.height() * m_board->ranks()   +1);
     int rankSize = fontMetrics().horizontalAdvance('M')+4;
@@ -123,8 +123,8 @@ void ChessView::drawColumn(QPainter *painter, int column)
 void ChessView::drawField(QPainter *painter, int column, int rank)
 {
     QRect rect = fieldRect(column, rank);
-    QColor fillColor = (column+rank) % 2 ? palette().color(QPalette::Dark)
-                                         : palette().color(QPalette::Light);
+    QColor fillColor = (column+rank) % 2 ? palette().color(QPalette::Light)
+                                         : palette().color(QPalette::Mid);
     painter->setPen(palette().color(QPalette::Dark));
     painter->setBrush(fillColor);
     painter->drawRect(rect);

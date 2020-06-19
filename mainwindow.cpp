@@ -2,9 +2,7 @@
 #include "chessboard.h"
 #include "chessview.h"
 #include "chessalgorithm.h"
-#include "foxandhounds.h"
 #include <QLayout>
-#include <QMessageBox>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent), ui(new Ui::MainWindow), m_selectedField(0)
@@ -28,15 +26,13 @@ MainWindow::MainWindow(QWidget *parent)
     m_view->setPiece('n', QIcon(":/pieces/Chess_ndt45.svg")); // knight
     m_view->setPiece('b', QIcon(":/pieces/Chess_bdt45.svg")); // bishop
 
-    m_algorithm = new FoxAndHounds(this);
+    m_algorithm = new ChessAlgorithm(this);
     m_algorithm->newGame();
     m_view->setBoard(m_algorithm->board());
     setCentralWidget(m_view);
     m_view->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
-    m_view->setFieldSize(QSize(100,100));
+    m_view->setFieldSize(QSize(100, 100));
     layout()->setSizeConstraint(QLayout::SetFixedSize);
-
-    connect(m_algorithm, SIGNAL(gameOver(ChessAlgorithm::Result)), this, SLOT(gameOver(ChessAlgorithm::Result)));
 }
 
 void MainWindow::viewClicked(const QPoint &field)
@@ -51,24 +47,11 @@ void MainWindow::viewClicked(const QPoint &field)
         }
     } else {
         if(field != m_clickPoint) {
-            m_algorithm->move(m_clickPoint, field);
+            m_view->board()->movePiece(m_clickPoint.x(), m_clickPoint.y(), field.x(), field.y());
         }
         m_clickPoint = QPoint();
         m_view->removeHighlight(m_selectedField);
         delete m_selectedField;
         m_selectedField = 0;
     }
-}
-
-void MainWindow::gameOver(ChessAlgorithm::Result result)
-{
-    QString text;
-    switch(result) {
-    case ChessAlgorithm::Player1Wins: text = "Hounds win!"; break;
-    case ChessAlgorithm::Player2Wins: text = "Fox wins!"; break;
-    default:
-        text = "It's a draw";
-    }
-
-    QMessageBox::information(this, "Game over", QStringLiteral("The game has ended. %1").arg(text));
 }

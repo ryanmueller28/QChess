@@ -4,8 +4,8 @@
 #include <QMainWindow>
 #include "ui_mainwindow.h"
 #include "chessview.h"
-#include "chessalgorithm.h"
 
+class ChessAlgorithm;
 class MainWindow : public QMainWindow
 {
     Q_OBJECT
@@ -17,9 +17,6 @@ public slots:
 
 protected:
     Ui::MainWindow *ui;
-
-private slots:
-    void gameOver(ChessAlgorithm::Result);
 
 private:
     ChessView *m_view;
